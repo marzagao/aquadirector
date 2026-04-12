@@ -1,0 +1,36 @@
+name: Bump GRC badge cache-buster
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**/*.go'
+      - 'go.mod'
+      - 'go.sum'
+
+permissions:
+  contents: write
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Rewrite badge URL with current SHA
+        run: |
+          sed -i -E \
+            's|(goreportcard\.com/badge/github\.com/marzagao/aquadirector)\?v=[^)"]*|\1?v=${{ github.sha }}|g' \
+            README.md
+
+      - name: Commit if changed
+        run: |
+          if git diff --quiet README.md; then
+            echo "README already up to date"
+            exit 0
+          fi
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add README.md
+          git commit -m 'chore: bump GRC badge cache-buster [skip ci]'
+          git push

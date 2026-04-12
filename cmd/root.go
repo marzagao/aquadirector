@@ -1,3 +1,4 @@
+// Package cmd implements the aquadirector CLI commands.
 package cmd
 
 import (
