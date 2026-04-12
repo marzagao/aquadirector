@@ -4,7 +4,7 @@ Contributions are welcome — bug reports, new device support, protocol improvem
 
 ## Development Setup
 
-You need Go 1.25+ and nothing else. No Docker, no external services.
+You need Go 1.25+ and nothing else for building and testing. To validate CI locally before pushing, you'll also need Docker (see [Validate CI locally](#validate-ci-locally) below).
 
 ```sh
 git clone https://github.com/marzagao/aquadirector.git
@@ -53,6 +53,18 @@ Tests cover 8 packages: `alerts`, `config`, `discovery`, `output`, `sensor`, `re
 - Output formatting goes through `internal/output` — do not print directly from commands or clients
 - `pkg/` packages must not import from `internal/`
 - Keep `cmd/` commands concise; extract logic to `internal/` if a command grows beyond flag parsing
+
+## Validate CI locally
+
+Before pushing, run the CI workflow locally with [agent-ci](https://agent-ci.dev/) to catch failures without burning a GitHub Actions run:
+
+```sh
+npx @redwoodjs/agent-ci
+```
+
+This requires Docker. It runs the same `build`, `test`, and `vet` steps as the GitHub Actions workflow inside a container identical to `ubuntu-latest`. If it passes locally, it will pass in CI.
+
+> **Note:** The Go cache is configured via `go env -w` in the workflow, so it works correctly inside the agent-ci container without any extra setup.
 
 ## Submitting Changes
 
