@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `gofmt -s` compliance across all packages
 - `gocyclo`: reduced complexity of `extractATOField` (21 → 9) and `mockTuyaDevice` (16 → 5) by extracting helper functions
-- Spelling: `professionel` → `professional` in `DeviceTypeName`
+- Fixed misspelling in `DeviceTypeName` (extra `e` in `professional`)
 
 ## [1.0.0] - 2026-04-11
 

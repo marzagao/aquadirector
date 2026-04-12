@@ -1,0 +1,5 @@
+#!/bin/sh
+# Run the same checks Go Report Card runs before allowing a push.
+# Bypass with: git push --no-verify
+set -e
+exec make check

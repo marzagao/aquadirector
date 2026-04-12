@@ -30,3 +30,6 @@ jobs:
 
       - name: Vet
         run: go vet ./...
+
+      - name: Go Report Card checks
+        run: make check
