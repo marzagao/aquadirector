@@ -9,10 +9,10 @@
 # Generate (run from repo root):
 #   CHROMIUM_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" vhs hack/demo.tape
 #
-# Output: demo.gif — add to README with:
-#   ![Demo](demo.gif)
+# Output: hack/demo.gif — add to README with:
+#   ![Demo](hack/demo.gif)
 
-Output demo.gif
+Output hack/demo.gif
 
 Set Shell "bash"
 Set FontSize 10
