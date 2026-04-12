@@ -62,7 +62,8 @@ Tests cover 8 packages: `alerts`, `config`, `discovery`, `output`, `sensor`, `re
 The README GIF is recorded with [asciinema](https://asciinema.org/) and rendered with [agg](https://github.com/asciinema/agg):
 
 ```sh
-brew install asciinema agg
+brew install asciinema
+npm install -g svg-term-cli
 ```
 
 To re-record (run from repo root):
@@ -77,7 +78,7 @@ This opens an interactive session — run the commands you want to show, then `e
 hack/render.sh   # outputs hack/demo.gif
 ```
 
-Commit both `hack/demo.cast` and `hack/demo.gif`. The `.cast` file is plain text and re-renderable — to adjust font size, speed, or dimensions, edit `hack/render.sh` and re-run it without re-recording.
+Commit both `hack/demo.cast` and `hack/demo.svg`. The `.cast` file is plain text and re-renderable — to adjust dimensions or styling, edit `hack/render.sh` and re-run it without re-recording.
 
 ## Validate CI locally
 
