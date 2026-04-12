@@ -1,0 +1,50 @@
+version: 2
+
+project_name: aquadirector
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w
+      - -X github.com/marzagao/aquadirector/cmd.Version={{.Version}}
+      - -X github.com/marzagao/aquadirector/cmd.Commit={{.Commit}}
+
+archives:
+  - formats:
+      - tar.gz
+    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
+
+brews:
+  - name: aquadirector
+    repository:
+      owner: marzagao
+      name: homebrew-tap
+      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
+    homepage: "https://github.com/marzagao/aquadirector"
+    description: "Monitor and control your reef aquarium from the terminal"
+    license: "MIT"
+    install: |
+      bin.install "aquadirector"
+    test: |
+      system "#{bin}/aquadirector", "version"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+      - "Merge pull request"
+      - "Merge branch"

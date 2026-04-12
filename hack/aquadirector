@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+# Mock aquadirector binary for demo recording.
+# Used by hack/demo.tape — not for production use.
+
+CMD="$*"
+
+case "$CMD" in
+  dashboard)
+    cat <<'EOF'
+
+=== Water Quality ===
+pH           7.87  (low)
+Temperature  25.4C / 77.7F
+ORP          155 mV  (low)
+Salinity     0.63%
+SG           1.022
+
+=== ATO ===
+Status       auto  (level=desired, 5.0 gal)  temp=25.5C
+Pump         off  last trigger: manual
+Today Fills  6  (0.22 gal)
+Last Fill    2026-04-11 17:14
+Temp 7d      min=24.8C  avg=25.4C  max=26.6C
+Leak Sensor  dry
+
+=== Lighting ===
+Mode         auto  (moon=0, white=46, blue=65)
+
+=== Feeding ===
+Food         ~0g  drum=RED  (level=0)
+
+=== Notifications (last 7 days) ===
+2026-04-11 08:51  ATO: Reservoir is running low.
+
+Ran at 2026-04-11 17:14:32
+EOF
+    ;;
+
+  "sensor status --output json")
+    cat <<'EOF'
+{
+  "run_at": 1744398263,
+  "ph": 7.87,
+  "temperature_c": 25.4,
+  "temperature_f": 77.7,
+  "orp_mv": 155,
+  "salinity_pct": 0.63,
+  "sg": 1.022,
+  "tds_ppm": 412,
+  "ec_us_cm": 52100,
+  "battery_pct": 85
+}
+EOF
+    ;;
+
+  "alerts check")
+    cat <<'EOF'
+OK      critical  temperature_high
+OK      warning   temperature_low
+OK      critical  leak_detected
+FIRING  warning   ph_low           pH is 7.87 (below 7.8)
+FIRING  warning   feeder_drum_low  Autofeeder drum is low (state=2)
+
+Ran at 2026-04-11 17:14:32
+EOF
+    ;;
+
+  *)
+    echo "aquadirector: unknown command '$CMD'" >&2
+    exit 1
+    ;;
+esac

@@ -1,0 +1,136 @@
+# Aquadirector configuration
+# Copy to ~/.config/aquadirector/aquadirector.yaml
+
+network:
+  subnet: "192.168.50.0/24"
+  scan_threads: 64
+  default_timeout: 20s
+  retry_max: 5
+  retry_delay: 2s
+
+# Known devices (populate manually or via `aquadirector discover --save`)
+devices:
+  - name: "ReefATO+"
+    ip: "192.168.50.10"
+    type: "RSATO+"
+  - name: "ReefLED60"
+    ip: "192.168.50.11"
+    type: "RSLED60"
+
+# Kactoily 7-in-1 water sensor (Tuya protocol v3.5)
+# Get device_id and local_key from the Tuya IoT Developer Platform
+# (https://iot.tuya.com/) after linking your Kactoily/Smart Life app account.
+sensor:
+  ip: "192.168.50.15"
+  device_id: ""          # Tuya device ID (e.g. "REDACTED")
+  local_key: ""          # Tuya local key (e.g. "REDACTED")
+  version: "3.5"         # Tuya protocol version
+  poll_interval: 60s
+  # Calibration offsets (added to raw sensor readings).
+  # Use a reference instrument (refractometer, pH meter) to determine offsets.
+  # calibration:
+  #   sg: 0.020           # if sensor reads 1.005 but refractometer reads 1.025
+  #   ph: 0.0
+  #   salinity: 0.0
+  #   temperature: 0.0
+  #   tds: 0
+  #   ec: 0
+  #   orp: 0
+
+# Eheim autofeeder+ (REST API with Digest auth via Eheim Digital hub)
+# The hub is discovered via mDNS at eheimdigital.local.
+# MAC is auto-detected if only one feeder is on the mesh.
+feeder:
+  host: "eheimdigital.local"  # Hub address (mDNS hostname or IP)
+  # mac: ""                   # Feeder MAC address (auto-detected if omitted)
+  username: "api"             # Digest auth username
+  password: "admin"           # Digest auth password (change via Eheim app)
+
+# Red Sea cloud API (optional)
+# Enables 7-day notification history and ATO temperature range on the dashboard.
+# Requires a Red Sea / ReefBeat account. client_credentials is the Base64-encoded
+# client_id:client_secret from the ReefBeat mobile app (capture via HTTPS proxy).
+# cloud:
+#   username: "your@email.com"
+#   password: "yourpassword"
+#   client_credentials: "base64encodedclientidandsecret"
+
+# Alert thresholds
+alerts:
+  enabled: true
+  rules:
+    - name: "temperature_high"
+      source: "ato"
+      metric: "temperature"
+      operator: ">"
+      threshold: 27.0
+      severity: "critical"
+      message: "Tank temperature {{.Value}}C exceeds {{.Threshold}}C"
+
+    - name: "temperature_low"
+      source: "ato"
+      metric: "temperature"
+      operator: "<"
+      threshold: 24.0
+      severity: "warning"
+      message: "Tank temperature dropped to {{.Value}}C"
+
+    - name: "leak_detected"
+      source: "ato"
+      metric: "leak_sensor.status"
+      operator: "!="
+      threshold: "dry"
+      severity: "critical"
+      message: "Leak sensor triggered: {{.Value}}"
+
+    - name: "water_level_low"
+      source: "ato"
+      metric: "volume_left"
+      operator: "<"
+      threshold: 500
+      severity: "warning"
+      message: "ATO reservoir low: {{.Value}}ml remaining"
+
+    - name: "ph_high"
+      source: "sensor"
+      metric: "ph"
+      operator: ">"
+      threshold: 8.4
+      severity: "warning"
+      message: "pH is {{.Value}} (above {{.Threshold}})"
+
+    - name: "ph_low"
+      source: "sensor"
+      metric: "ph"
+      operator: "<"
+      threshold: 7.8
+      severity: "warning"
+      message: "pH is {{.Value}} (below {{.Threshold}})"
+
+    - name: "salinity_high"
+      source: "sensor"
+      metric: "salinity"
+      operator: ">"
+      threshold: 37.0
+      severity: "warning"
+      message: "Salinity is {{.Value}} ppt"
+
+    - name: "feeder_drum_low"
+      source: "feeder"
+      metric: "drum_state"
+      operator: ">="
+      threshold: 2
+      severity: "warning"
+      message: "Autofeeder drum is low (state={{.Value}})"
+
+  notifications:
+    - type: "stdout"
+      severity_min: "info"
+
+    # - type: "webhook"
+    #   severity_min: "warning"
+    #   url: "https://hooks.slack.com/services/XXX/YYY/ZZZ"
+    #   method: "POST"
+    #   headers:
+    #     Content-Type: "application/json"
+    #   body_template: '{"text": "aquadirector: {{.Name}} - {{.Message}}"}'

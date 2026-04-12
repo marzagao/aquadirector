@@ -1,0 +1,25 @@
+# Binary
+/aquadirector
+
+# Test binaries
+*.test
+
+# Build output
+dist/
+
+# Credential caches
+cloud_token.json
+
+# Environment / secrets
+.env
+
+# Claude Code
+.claude/
+
+# Editor / IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
