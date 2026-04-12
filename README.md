@@ -23,6 +23,7 @@ Most aquarium monitoring solutions require a cloud account, a subscription, or a
 
 - **Local-first** — no cloud account needed for Red Sea or Eheim control
 - **Scriptable** — all commands support `--output json`; pipe to `jq`, cron-friendly alerts
+- **Color-coded dashboard** — pH/ORP/drum state and reservoir days-left are colorized on a TTY; auto-disabled when piped, honors `NO_COLOR`
 - **Lightweight** — one binary, no runtime dependencies; Tuya v3.5 implemented natively in Go
 - **Composable** — `pkg/redsea`, `pkg/eheim`, and `pkg/tuya` are importable Go libraries
 
@@ -157,6 +158,7 @@ aquadirector
 ```
 --config FILE    Config file (default ~/.config/aquadirector/aquadirector.yaml)
 --output FORMAT  Output format: table, json, yaml (default table)
+--color MODE     Colorize output: auto, always, never (default auto; honors NO_COLOR)
 --verbose        Debug logging
 ```
 

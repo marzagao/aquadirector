@@ -6,31 +6,34 @@ CMD="$*"
 
 case "$CMD" in
   dashboard)
-    cat <<'EOF'
+    # ANSI escapes for the colorized dashboard demo. Palette matches
+    # internal/color: bold=1, dim=2, red=31, green=32, yellow=33, blue=34.
+    B=$'\e[1m'; D=$'\e[2m'; R=$'\e[31m'; G=$'\e[32m'; Y=$'\e[33m'; X=$'\e[0m'
+    cat <<EOF
 
-=== Water Quality ===
-pH           7.87  (low)
-Temperature  25.4C / 77.7F
-ORP          155 mV  (low)
-Salinity     0.63%
-SG           1.022
+${B}=== Water Quality ===${X}
+${D}pH${X}           7.87  (${Y}low${X})
+${D}Temperature${X}  25.4C / 77.7F
+${D}ORP${X}          155 mV  (${Y}low${X})
+${D}Salinity${X}     0.63%
+${D}SG${X}           1.022
 
-=== ATO ===
-Status       auto  (level=desired, 5.0 gal)  temp=25.5C
-Pump         off  last trigger: manual
-Today Fills  6  (0.22 gal)
-Last Fill    2026-04-11 17:14
-Temp 7d      min=24.8C  avg=25.4C  max=26.6C
-Leak Sensor  dry
+${B}=== ATO ===${X}
+${D}Status${X}       auto  (level=desired, 5.0 gal)  temp=25.5C
+${D}Pump${X}         off  last trigger: manual
+${D}Today Fills${X}  6  (0.22 gal)
+${D}Last Fill${X}    2026-04-11 17:14
+${D}Temp 7d${X}      min=24.8C  avg=25.4C  max=26.6C
+${D}Leak Sensor${X}  ${G}dry${X}
 
-=== Lighting ===
-Mode         auto  (moon=0, white=46, blue=65)
+${B}=== Lighting ===${X}
+${D}Mode${X}         auto  (moon=0, white=46, blue=65)
 
-=== Feeding ===
-Food         ~0g  drum=RED  (level=0)
+${B}=== Feeding ===${X}
+${D}Food${X}         ~0g  drum=${R}RED${X}  (level=0)
 
-=== Notifications (last 7 days) ===
-2026-04-11 08:51  ATO: Reservoir is running low.
+${B}=== Notifications (last 7 days) ===${X}
+${D}2026-04-11 08:51${X}  ATO: Reservoir is running low.
 
 Ran at 2026-04-11 17:14:32
 EOF

@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/marzagao/aquadirector/internal/color"
 	"github.com/marzagao/aquadirector/internal/config"
 	"github.com/marzagao/aquadirector/internal/output"
 	"github.com/marzagao/aquadirector/internal/sensor"
@@ -214,13 +215,13 @@ var dashboardCmd = &cobra.Command{
 		}
 
 		// Water Quality section
-		fmt.Println("=== Water Quality ===")
+		fmt.Println(color.Bold("=== Water Quality ==="))
 		wqRows := []output.TableRow{
-			{Label: "pH", Value: fmt.Sprintf("%.2f (%s)", data.WaterQuality.PH, phStatus(data.WaterQuality.PH))},
-			{Label: "Temperature", Value: formatDashTemp(data.WaterQuality.Temperature) + " (sensor)"},
-			{Label: "ORP", Value: fmt.Sprintf("%d mV (%s)", data.WaterQuality.ORP, orpStatus(data.WaterQuality.ORP))},
-			{Label: "Salinity", Value: fmt.Sprintf("%.2f%%", data.WaterQuality.Salinity)},
-			{Label: "SG", Value: fmt.Sprintf("%.3f", data.WaterQuality.SG)},
+			{Label: color.Dim("pH"), Value: fmt.Sprintf("%.2f (%s)", data.WaterQuality.PH, color.StatusLabel(phStatus(data.WaterQuality.PH)))},
+			{Label: color.Dim("Temperature"), Value: formatDashTemp(data.WaterQuality.Temperature) + " (sensor)"},
+			{Label: color.Dim("ORP"), Value: fmt.Sprintf("%d mV (%s)", data.WaterQuality.ORP, color.StatusLabel(orpStatus(data.WaterQuality.ORP)))},
+			{Label: color.Dim("Salinity"), Value: fmt.Sprintf("%.2f%%", data.WaterQuality.Salinity)},
+			{Label: color.Dim("SG"), Value: fmt.Sprintf("%.3f", data.WaterQuality.SG)},
 		}
 		output.Print(os.Stdout, output.Table, nil, wqRows)
 
@@ -232,30 +233,30 @@ var dashboardCmd = &cobra.Command{
 			if data.Equipment.ATOTemp > 0 {
 				atoInfo += fmt.Sprintf(" temp=%.1fC (probe)", data.Equipment.ATOTemp)
 			}
-			atoRows = append(atoRows, output.TableRow{Label: "Status", Value: atoInfo})
+			atoRows = append(atoRows, output.TableRow{Label: color.Dim("Status"), Value: atoInfo})
 		}
 
 		if data.Equipment.LastPumpCause != "" || data.Equipment.PumpOn {
 			pumpVal := "off"
 			if data.Equipment.PumpOn {
-				pumpVal = "running"
+				pumpVal = color.Blue("running")
 			}
 			if data.Equipment.LastPumpCause != "" {
 				pumpVal += fmt.Sprintf(", last trigger: %s", formatPumpCause(data.Equipment.LastPumpCause))
 			}
-			atoRows = append(atoRows, output.TableRow{Label: "Pump", Value: pumpVal})
+			atoRows = append(atoRows, output.TableRow{Label: color.Dim("Pump"), Value: pumpVal})
 		}
 
 		if data.Equipment.TodayFills > 0 || data.Equipment.LastFill != nil {
 			atoRows = append(atoRows, output.TableRow{
-				Label: "Today Fills",
+				Label: color.Dim("Today Fills"),
 				Value: fmt.Sprintf("%d (%.2f gal)", data.Equipment.TodayFills, float64(data.Equipment.TodayVolume)/3785.41),
 			})
 			lastFill := "never"
 			if data.Equipment.LastFill != nil {
 				lastFill = time.Unix(*data.Equipment.LastFill, 0).Format("2006-01-02 15:04")
 			}
-			atoRows = append(atoRows, output.TableRow{Label: "Last Fill", Value: lastFill})
+			atoRows = append(atoRows, output.TableRow{Label: color.Dim("Last Fill"), Value: lastFill})
 		}
 
 		if data.Equipment.DaysTillEmpty != nil {
@@ -263,26 +264,42 @@ var dashboardCmd = &cobra.Command{
 			if data.Equipment.DailyVolumeAvg != nil {
 				avgStr = fmt.Sprintf(" (avg %.0fml/day)", *data.Equipment.DailyVolumeAvg)
 			}
+			days := *data.Equipment.DaysTillEmpty
+			daysStr := fmt.Sprintf("~%.0f days till empty", days)
+			switch {
+			case days < 3:
+				daysStr = color.Red(daysStr)
+			case days < 7:
+				daysStr = color.Yellow(daysStr)
+			default:
+				daysStr = color.Green(daysStr)
+			}
 			atoRows = append(atoRows, output.TableRow{
-				Label: "Reservoir",
-				Value: fmt.Sprintf("~%.0f days till empty%s", *data.Equipment.DaysTillEmpty, avgStr),
+				Label: color.Dim("Reservoir"),
+				Value: daysStr + avgStr,
 			})
 		}
 
 		if data.Equipment.ATOTempAvg > 0 {
 			atoRows = append(atoRows, output.TableRow{
-				Label: "Temp 7d (cloud)",
+				Label: color.Dim("Temp 7d (cloud)"),
 				Value: fmt.Sprintf("min=%.1fC avg=%.1fC max=%.1fC",
 					data.Equipment.ATOTempMin, data.Equipment.ATOTempAvg, data.Equipment.ATOTempMax),
 			})
 		}
 
 		if data.Equipment.LeakSensor != "" {
-			atoRows = append(atoRows, output.TableRow{Label: "Leak Sensor", Value: data.Equipment.LeakSensor})
+			leakVal := data.Equipment.LeakSensor
+			if leakVal == "dry" {
+				leakVal = color.Green(leakVal)
+			} else {
+				leakVal = color.Red(leakVal)
+			}
+			atoRows = append(atoRows, output.TableRow{Label: color.Dim("Leak Sensor"), Value: leakVal})
 		}
 
 		if len(atoRows) > 0 {
-			fmt.Println("\n=== ATO ===")
+			fmt.Println(color.Bold("\n=== ATO ==="))
 			if err := output.Print(os.Stdout, output.Table, nil, atoRows); err != nil {
 				return err
 			}
@@ -290,21 +307,21 @@ var dashboardCmd = &cobra.Command{
 
 		// Lighting section
 		if data.Equipment.LEDMode != "" || data.Equipment.AcclimationActive {
-			fmt.Println("\n=== Lighting ===")
+			fmt.Println(color.Bold("\n=== Lighting ==="))
 			var lightRows []output.TableRow
 
 			if data.Equipment.LEDMode != "" {
 				lightRows = append(lightRows, output.TableRow{
-					Label: "Mode",
+					Label: color.Dim("Mode"),
 					Value: fmt.Sprintf("%s (moon=%d, white=%d, blue=%d)", data.Equipment.LEDMode, data.Equipment.Moon, data.Equipment.White, data.Equipment.Blue),
 				})
 			}
 
 			if data.Equipment.AcclimationActive {
 				lightRows = append(lightRows, output.TableRow{
-					Label: "Acclimation",
-					Value: fmt.Sprintf("%d days remaining (intensity %d%%)",
-						data.Equipment.AcclimationDaysLeft, data.Equipment.AcclimationIntensity),
+					Label: color.Dim("Acclimation"),
+					Value: color.Blue(fmt.Sprintf("%d days remaining (intensity %d%%)",
+						data.Equipment.AcclimationDaysLeft, data.Equipment.AcclimationIntensity)),
 				})
 			}
 
@@ -315,13 +332,13 @@ var dashboardCmd = &cobra.Command{
 
 		// Feeding section
 		if data.Equipment.FeederDrum != "" {
-			fmt.Println("\n=== Feeding ===")
+			fmt.Println(color.Bold("\n=== Feeding ==="))
 			weightStr := fmt.Sprintf("%.1fg", data.Equipment.FeederWeight)
 			if data.Equipment.FeederWeight < 0 {
 				weightStr = "~0g"
 			}
 			feederRows := []output.TableRow{
-				{Label: "Food", Value: fmt.Sprintf("%s drum=%s (level=%d)", weightStr, data.Equipment.FeederDrum, data.Equipment.FeederLevel)},
+				{Label: color.Dim("Food"), Value: fmt.Sprintf("%s drum=%s (level=%d)", weightStr, colorizeDrumState(data.Equipment.FeederDrum), data.Equipment.FeederLevel)},
 			}
 			if err := output.Print(os.Stdout, output.Table, nil, feederRows); err != nil {
 				return err
@@ -332,7 +349,7 @@ var dashboardCmd = &cobra.Command{
 		if appConfig.Cloud.Username == "" || appConfig.Cloud.ClientCredentials == "" {
 			return nil
 		}
-		fmt.Printf("\n=== Notifications (last %d days) ===\n", notificationDays)
+		fmt.Println(color.Bold(fmt.Sprintf("\n=== Notifications (last %d days) ===", notificationDays)))
 		if len(data.Notifications) == 0 {
 			fmt.Println("(none)")
 		} else {
@@ -341,10 +358,10 @@ var dashboardCmd = &cobra.Command{
 				ts := n.TimeSent.Local().Format("2006-01-02 15:04")
 				unread := ""
 				if !n.Read {
-					unread = " *"
+					unread = color.Yellow(" *")
 				}
 				nRows = append(nRows, output.TableRow{
-					Label: ts + unread,
+					Label: color.Dim(ts) + unread,
 					Value: formatNotificationText(n),
 				})
 			}
@@ -378,6 +395,21 @@ func orpStatus(orp int) string {
 		return "ok"
 	default:
 		return "high"
+	}
+}
+
+func colorizeDrumState(state string) string {
+	switch state {
+	case "GREEN":
+		return color.Green(state)
+	case "ORANGE":
+		return color.Yellow(state)
+	case "RED":
+		return color.Red(state)
+	case "MEASURING":
+		return color.Blue(state)
+	default:
+		return state
 	}
 }
 

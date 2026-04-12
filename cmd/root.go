@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"time"
 
+	"github.com/marzagao/aquadirector/internal/color"
 	"github.com/marzagao/aquadirector/internal/config"
 	"github.com/marzagao/aquadirector/pkg/redsea"
 	"github.com/spf13/cobra"
@@ -16,6 +17,7 @@ import (
 var (
 	cfgFile   string
 	outputFmt string
+	colorMode string
 	verbose   bool
 	appConfig *config.Config
 )
@@ -30,6 +32,7 @@ var rootCmd = &cobra.Command{
 			return fmt.Errorf("loading config: %w", err)
 		}
 		appConfig = cfg
+		color.Init(colorMode)
 		return nil
 	},
 	PersistentPostRun: func(cmd *cobra.Command, args []string) {
@@ -50,6 +53,7 @@ func init() {
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default ~/.config/aquadirector/aquadirector.yaml)")
 	rootCmd.PersistentFlags().StringVar(&outputFmt, "output", "table", "output format: table, json, yaml")
+	rootCmd.PersistentFlags().StringVar(&colorMode, "color", "auto", "colorize output: auto, always, never (honors NO_COLOR)")
 	rootCmd.PersistentFlags().BoolVar(&verbose, "verbose", false, "enable debug logging")
 }
 
