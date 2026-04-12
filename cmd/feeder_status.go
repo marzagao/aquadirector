@@ -5,9 +5,9 @@ import (
 	"os"
 	"time"
 
-	"github.com/spf13/cobra"
 	"github.com/marzagao/aquadirector/internal/output"
 	"github.com/marzagao/aquadirector/pkg/eheim"
+	"github.com/spf13/cobra"
 )
 
 var feederWatchInterval time.Duration

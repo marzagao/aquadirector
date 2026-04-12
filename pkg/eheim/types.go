@@ -90,7 +90,7 @@ type FeederData struct {
 	DrumState       DrumState    `json:"drum_state"`
 	Schedule        WeekSchedule `json:"schedule"`
 	Overfeeding     bool         `json:"overfeeding"`
-	SyncFilter      string       `json:"sync_filter"`    // MAC of paired filter (reduces flow before feeding)
+	SyncFilter      string       `json:"sync_filter"` // MAC of paired filter (reduces flow before feeding)
 	FeedingBreak    bool         `json:"feeding_break"`
 	IsBreakDay      bool         `json:"is_break_day"`
 	TurnTimeFeeding int          `json:"turn_time_feeding"`
@@ -98,19 +98,19 @@ type FeederData struct {
 
 // feederDataWire is the raw JSON structure from the Eheim protocol.
 type feederDataWire struct {
-	Title           string        `json:"title"`
-	From            string        `json:"from"`
-	Weight          float64       `json:"weight"`
-	IsSpinning      int           `json:"isSpinning"`
-	Level           []int         `json:"level"`
-	Configuration   [][][]int     `json:"configuration"`
-	Overfeeding     int           `json:"overfeeding"`
-	Sync            string        `json:"sync"`
-	PartnerName     string        `json:"partnerName"`
-	SollRegulation  int           `json:"sollRegulation"`
-	FeedingBreak    int           `json:"feedingBreak"`
-	BreakDay        int           `json:"breakDay"`
-	TurnTimeFeeding int           `json:"turnTimeFeeding"`
+	Title           string    `json:"title"`
+	From            string    `json:"from"`
+	Weight          float64   `json:"weight"`
+	IsSpinning      int       `json:"isSpinning"`
+	Level           []int     `json:"level"`
+	Configuration   [][][]int `json:"configuration"`
+	Overfeeding     int       `json:"overfeeding"`
+	Sync            string    `json:"sync"`
+	PartnerName     string    `json:"partnerName"`
+	SollRegulation  int       `json:"sollRegulation"`
+	FeedingBreak    int       `json:"feedingBreak"`
+	BreakDay        int       `json:"breakDay"`
+	TurnTimeFeeding int       `json:"turnTimeFeeding"`
 }
 
 // ParseFeederData converts a raw JSON message into FeederData.
@@ -203,4 +203,3 @@ type MeshDevice struct {
 	Version  int    `json:"version" yaml:"version"`
 	Revision string `json:"revision" yaml:"revision"`
 }
-

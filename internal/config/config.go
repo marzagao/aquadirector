@@ -63,13 +63,13 @@ type AlertsConfig struct {
 }
 
 type AlertRule struct {
-	Name      string  `mapstructure:"name"`
-	Source    string  `mapstructure:"source"`
-	Metric    string  `mapstructure:"metric"`
-	Operator  string  `mapstructure:"operator"`
-	Threshold any     `mapstructure:"threshold"`
-	Severity  string  `mapstructure:"severity"`
-	Message   string  `mapstructure:"message"`
+	Name      string `mapstructure:"name"`
+	Source    string `mapstructure:"source"`
+	Metric    string `mapstructure:"metric"`
+	Operator  string `mapstructure:"operator"`
+	Threshold any    `mapstructure:"threshold"`
+	Severity  string `mapstructure:"severity"`
+	Message   string `mapstructure:"message"`
 }
 
 type NotificationConfig struct {

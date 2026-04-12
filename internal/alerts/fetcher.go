@@ -10,10 +10,10 @@ import (
 
 // DeviceFetcher fetches metrics from configured aquarium devices.
 type DeviceFetcher struct {
-	ATOClient    *redsea.ATOClient
-	LEDClient    *redsea.LEDClient
-	SensorFetch  func(ctx context.Context, metric string) (any, error)
-	FeederFetch  func(ctx context.Context, metric string) (any, error)
+	ATOClient   *redsea.ATOClient
+	LEDClient   *redsea.LEDClient
+	SensorFetch func(ctx context.Context, metric string) (any, error)
+	FeederFetch func(ctx context.Context, metric string) (any, error)
 }
 
 func (f *DeviceFetcher) Fetch(ctx context.Context, source, metric string) (any, error) {

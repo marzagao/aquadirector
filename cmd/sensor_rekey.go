@@ -6,9 +6,9 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/marzagao/aquadirector/internal/sensor"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"github.com/marzagao/aquadirector/internal/sensor"
 	"gopkg.in/yaml.v3"
 )
 

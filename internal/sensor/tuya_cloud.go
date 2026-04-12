@@ -48,11 +48,11 @@ type TuyaDeviceInfo struct {
 
 type tuyaDeviceListResponse struct {
 	Result []struct {
-		ID       string `json:"id"`
-		Name     string `json:"name"`
-		Key      string `json:"key"`
-		IP       string `json:"ip"`
-		MAC      string `json:"mac"`
+		ID   string `json:"id"`
+		Name string `json:"name"`
+		Key  string `json:"key"`
+		IP   string `json:"ip"`
+		MAC  string `json:"mac"`
 	} `json:"result"`
 	Success bool   `json:"success"`
 	Msg     string `json:"msg"`

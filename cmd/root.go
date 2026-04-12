@@ -6,17 +6,17 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 	"github.com/marzagao/aquadirector/internal/config"
 	"github.com/marzagao/aquadirector/pkg/redsea"
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 var (
-	cfgFile    string
-	outputFmt  string
-	verbose    bool
-	appConfig  *config.Config
+	cfgFile   string
+	outputFmt string
+	verbose   bool
+	appConfig *config.Config
 )
 
 var rootCmd = &cobra.Command{

@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/spf13/cobra"
 	"github.com/marzagao/aquadirector/internal/output"
 	"github.com/marzagao/aquadirector/internal/sensor"
 	"github.com/marzagao/aquadirector/pkg/redsea"
+	"github.com/spf13/cobra"
 )
 
 var statusDevice string

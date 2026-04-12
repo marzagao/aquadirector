@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/spf13/cobra"
 	"github.com/marzagao/aquadirector/pkg/eheim"
+	"github.com/spf13/cobra"
 )
 
 var (

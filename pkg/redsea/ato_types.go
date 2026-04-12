@@ -1,23 +1,23 @@
 package redsea
 
 type ATODashboard struct {
-	VolumeLeft        int        `json:"volume_left" yaml:"volume_left"`
-	DailyFillsAvg     *float64   `json:"daily_fills_average" yaml:"daily_fills_average"`
-	DailyVolumeAvg    *float64   `json:"daily_volume_average" yaml:"daily_volume_average"`
-	DaysTillEmpty     *float64   `json:"days_till_empty" yaml:"days_till_empty"`
-	Mode              string     `json:"mode" yaml:"mode"`
-	IsPumpOn          bool       `json:"is_pump_on" yaml:"is_pump_on"`
-	PumpState         string     `json:"pump_state" yaml:"pump_state"`
-	LastPumpOnCause   string     `json:"last_pump_on_cause" yaml:"last_pump_on_cause"`
-	PumpSpeed         int        `json:"pump_speed" yaml:"pump_speed"`
-	TotalFills        int        `json:"total_fills" yaml:"total_fills"`
-	TodayFills        int        `json:"today_fills" yaml:"today_fills"`
-	TodayVolumeUsage  int        `json:"today_volume_usage" yaml:"today_volume_usage"`
-	FlowRate          float64    `json:"flow_rate" yaml:"flow_rate"`
-	LastFillDate      *int64     `json:"last_fill_date" yaml:"last_fill_date"`
-	WaterLevel        string     `json:"water_level" yaml:"water_level"`
-	ATOSensor         ATOSensor  `json:"ato_sensor" yaml:"ato_sensor"`
-	LeakSensor        LeakSensor `json:"leak_sensor" yaml:"leak_sensor"`
+	VolumeLeft       int        `json:"volume_left" yaml:"volume_left"`
+	DailyFillsAvg    *float64   `json:"daily_fills_average" yaml:"daily_fills_average"`
+	DailyVolumeAvg   *float64   `json:"daily_volume_average" yaml:"daily_volume_average"`
+	DaysTillEmpty    *float64   `json:"days_till_empty" yaml:"days_till_empty"`
+	Mode             string     `json:"mode" yaml:"mode"`
+	IsPumpOn         bool       `json:"is_pump_on" yaml:"is_pump_on"`
+	PumpState        string     `json:"pump_state" yaml:"pump_state"`
+	LastPumpOnCause  string     `json:"last_pump_on_cause" yaml:"last_pump_on_cause"`
+	PumpSpeed        int        `json:"pump_speed" yaml:"pump_speed"`
+	TotalFills       int        `json:"total_fills" yaml:"total_fills"`
+	TodayFills       int        `json:"today_fills" yaml:"today_fills"`
+	TodayVolumeUsage int        `json:"today_volume_usage" yaml:"today_volume_usage"`
+	FlowRate         float64    `json:"flow_rate" yaml:"flow_rate"`
+	LastFillDate     *int64     `json:"last_fill_date" yaml:"last_fill_date"`
+	WaterLevel       string     `json:"water_level" yaml:"water_level"`
+	ATOSensor        ATOSensor  `json:"ato_sensor" yaml:"ato_sensor"`
+	LeakSensor       LeakSensor `json:"leak_sensor" yaml:"leak_sensor"`
 }
 
 // Temperature returns the water temperature in Celsius from the ATO sensor probe.

@@ -7,18 +7,18 @@ import (
 	"strings"
 	"time"
 
-	"github.com/spf13/cobra"
 	"github.com/marzagao/aquadirector/internal/config"
 	"github.com/marzagao/aquadirector/internal/output"
 	"github.com/marzagao/aquadirector/internal/sensor"
 	"github.com/marzagao/aquadirector/pkg/redsea"
+	"github.com/spf13/cobra"
 )
 
 const notificationDays = 7
 
 type dashboardData struct {
-	WaterQuality  *waterQualityData      `json:"water_quality" yaml:"water_quality"`
-	Equipment     *equipmentData         `json:"equipment" yaml:"equipment"`
+	WaterQuality  *waterQualityData          `json:"water_quality" yaml:"water_quality"`
+	Equipment     *equipmentData             `json:"equipment" yaml:"equipment"`
 	Notifications []redsea.CloudNotification `json:"notifications,omitempty" yaml:"notifications,omitempty"`
 }
 
@@ -33,33 +33,33 @@ type waterQualityData struct {
 }
 
 type equipmentData struct {
-	ATOMode         string   `json:"ato_mode,omitempty"          yaml:"ato_mode,omitempty"`
-	WaterLevel      string   `json:"water_level,omitempty"       yaml:"water_level,omitempty"`
-	VolumeLeft      int      `json:"volume_left,omitempty"       yaml:"volume_left,omitempty"`
-	LeakSensor      string   `json:"leak_sensor,omitempty"       yaml:"leak_sensor,omitempty"`
-	ATOTemp         float64  `json:"ato_temp_c,omitempty"        yaml:"ato_temp_c,omitempty"`
-	TodayFills      int      `json:"today_fills,omitempty"       yaml:"today_fills,omitempty"`
-	TodayVolume     int      `json:"today_volume,omitempty"      yaml:"today_volume,omitempty"`
-	LastFill        *int64   `json:"last_fill,omitempty"         yaml:"last_fill,omitempty"`
-	PumpOn          bool     `json:"pump_on,omitempty"           yaml:"pump_on,omitempty"`
-	LastPumpCause   string   `json:"last_pump_cause,omitempty"   yaml:"last_pump_cause,omitempty"`
-	DaysTillEmpty   *float64 `json:"days_till_empty,omitempty"   yaml:"days_till_empty,omitempty"`
-	DailyVolumeAvg  *float64 `json:"daily_volume_avg_ml,omitempty" yaml:"daily_volume_avg_ml,omitempty"`
-	ATOTempMin      float64  `json:"ato_temp_7d_min_c,omitempty" yaml:"ato_temp_7d_min_c,omitempty"`
-	ATOTempMax      float64  `json:"ato_temp_7d_max_c,omitempty" yaml:"ato_temp_7d_max_c,omitempty"`
-	ATOTempAvg      float64  `json:"ato_temp_7d_avg_c,omitempty" yaml:"ato_temp_7d_avg_c,omitempty"`
-	LEDMode         string   `json:"led_mode,omitempty"          yaml:"led_mode,omitempty"`
-	White           int      `json:"white,omitempty"             yaml:"white,omitempty"`
-	Blue            int      `json:"blue,omitempty"              yaml:"blue,omitempty"`
-	Moon            int      `json:"moon,omitempty"              yaml:"moon,omitempty"`
-	LEDTemp         float64  `json:"led_temp_c,omitempty"        yaml:"led_temp_c,omitempty"`
-	AcclimationActive    bool `json:"acclimation_active,omitempty"    yaml:"acclimation_active,omitempty"`
-	AcclimationDaysLeft  int  `json:"acclimation_days_left,omitempty" yaml:"acclimation_days_left,omitempty"`
-	AcclimationIntensity int  `json:"acclimation_intensity,omitempty" yaml:"acclimation_intensity,omitempty"`
-	FeederWeight    float64  `json:"feeder_weight,omitempty"     yaml:"feeder_weight,omitempty"`
-	FeederDrum      string   `json:"feeder_drum,omitempty"       yaml:"feeder_drum,omitempty"`
-	FeederLevel     int      `json:"feeder_level,omitempty"      yaml:"feeder_level,omitempty"`
-	Battery         int      `json:"battery,omitempty"           yaml:"battery,omitempty"`
+	ATOMode              string   `json:"ato_mode,omitempty"          yaml:"ato_mode,omitempty"`
+	WaterLevel           string   `json:"water_level,omitempty"       yaml:"water_level,omitempty"`
+	VolumeLeft           int      `json:"volume_left,omitempty"       yaml:"volume_left,omitempty"`
+	LeakSensor           string   `json:"leak_sensor,omitempty"       yaml:"leak_sensor,omitempty"`
+	ATOTemp              float64  `json:"ato_temp_c,omitempty"        yaml:"ato_temp_c,omitempty"`
+	TodayFills           int      `json:"today_fills,omitempty"       yaml:"today_fills,omitempty"`
+	TodayVolume          int      `json:"today_volume,omitempty"      yaml:"today_volume,omitempty"`
+	LastFill             *int64   `json:"last_fill,omitempty"         yaml:"last_fill,omitempty"`
+	PumpOn               bool     `json:"pump_on,omitempty"           yaml:"pump_on,omitempty"`
+	LastPumpCause        string   `json:"last_pump_cause,omitempty"   yaml:"last_pump_cause,omitempty"`
+	DaysTillEmpty        *float64 `json:"days_till_empty,omitempty"   yaml:"days_till_empty,omitempty"`
+	DailyVolumeAvg       *float64 `json:"daily_volume_avg_ml,omitempty" yaml:"daily_volume_avg_ml,omitempty"`
+	ATOTempMin           float64  `json:"ato_temp_7d_min_c,omitempty" yaml:"ato_temp_7d_min_c,omitempty"`
+	ATOTempMax           float64  `json:"ato_temp_7d_max_c,omitempty" yaml:"ato_temp_7d_max_c,omitempty"`
+	ATOTempAvg           float64  `json:"ato_temp_7d_avg_c,omitempty" yaml:"ato_temp_7d_avg_c,omitempty"`
+	LEDMode              string   `json:"led_mode,omitempty"          yaml:"led_mode,omitempty"`
+	White                int      `json:"white,omitempty"             yaml:"white,omitempty"`
+	Blue                 int      `json:"blue,omitempty"              yaml:"blue,omitempty"`
+	Moon                 int      `json:"moon,omitempty"              yaml:"moon,omitempty"`
+	LEDTemp              float64  `json:"led_temp_c,omitempty"        yaml:"led_temp_c,omitempty"`
+	AcclimationActive    bool     `json:"acclimation_active,omitempty"    yaml:"acclimation_active,omitempty"`
+	AcclimationDaysLeft  int      `json:"acclimation_days_left,omitempty" yaml:"acclimation_days_left,omitempty"`
+	AcclimationIntensity int      `json:"acclimation_intensity,omitempty" yaml:"acclimation_intensity,omitempty"`
+	FeederWeight         float64  `json:"feeder_weight,omitempty"     yaml:"feeder_weight,omitempty"`
+	FeederDrum           string   `json:"feeder_drum,omitempty"       yaml:"feeder_drum,omitempty"`
+	FeederLevel          int      `json:"feeder_level,omitempty"      yaml:"feeder_level,omitempty"`
+	Battery              int      `json:"battery,omitempty"           yaml:"battery,omitempty"`
 }
 
 var dashboardCmd = &cobra.Command{
@@ -137,8 +137,8 @@ var dashboardCmd = &cobra.Command{
 				}
 				accl, err := client.Acclimation(cmd.Context())
 				if err == nil && accl.Enabled {
-					data.Equipment.AcclimationActive    = true
-					data.Equipment.AcclimationDaysLeft  = accl.RemainingDays
+					data.Equipment.AcclimationActive = true
+					data.Equipment.AcclimationDaysLeft = accl.RemainingDays
 					data.Equipment.AcclimationIntensity = accl.CurrentIntensityFactor
 				}
 				break

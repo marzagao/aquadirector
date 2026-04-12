@@ -6,12 +6,12 @@ import (
 	"path/filepath"
 	"sync"
 
-	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 	"github.com/marzagao/aquadirector/internal/config"
 	"github.com/marzagao/aquadirector/internal/discovery"
 	"github.com/marzagao/aquadirector/internal/output"
 	"github.com/marzagao/aquadirector/pkg/eheim"
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 	"gopkg.in/yaml.v3"
 )
 

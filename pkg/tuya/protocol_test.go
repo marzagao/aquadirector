@@ -34,9 +34,9 @@ func TestDecode55AA_DeviceResponse(t *testing.T) {
 	// Build: prefix + seq + cmd + length + retcode + payload + hmac + footer
 	var buf []byte
 	buf = binary.BigEndian.AppendUint32(buf, Prefix55AA)
-	buf = binary.BigEndian.AppendUint32(buf, 1)                                        // seq
-	buf = binary.BigEndian.AppendUint32(buf, CmdSessKeyNegResp)                        // cmd
-	buf = binary.BigEndian.AppendUint32(buf, uint32(4+len(payload)+32+4))               // length
+	buf = binary.BigEndian.AppendUint32(buf, 1)                           // seq
+	buf = binary.BigEndian.AppendUint32(buf, CmdSessKeyNegResp)           // cmd
+	buf = binary.BigEndian.AppendUint32(buf, uint32(4+len(payload)+32+4)) // length
 	buf = binary.BigEndian.AppendUint32(buf, retcode)
 	buf = append(buf, payload...)
 	mac := ComputeHMAC(hmacKey, buf)

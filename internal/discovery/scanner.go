@@ -30,7 +30,7 @@ type DiscoveredEheimDevice struct {
 
 type ScanResult struct {
 	Devices      []DiscoveredDevice      `json:"devices" yaml:"devices"`
-	EheimDevices []DiscoveredEheimDevice  `json:"eheim_devices,omitempty" yaml:"eheim_devices,omitempty"`
+	EheimDevices []DiscoveredEheimDevice `json:"eheim_devices,omitempty" yaml:"eheim_devices,omitempty"`
 }
 
 func Scan(ctx context.Context, subnet string, threads int) (*ScanResult, error) {

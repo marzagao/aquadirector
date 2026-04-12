@@ -3,8 +3,8 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/spf13/cobra"
 	"github.com/marzagao/aquadirector/pkg/redsea"
+	"github.com/spf13/cobra"
 )
 
 var (

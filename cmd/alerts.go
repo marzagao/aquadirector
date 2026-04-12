@@ -4,12 +4,12 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/spf13/cobra"
 	"github.com/marzagao/aquadirector/internal/alerts"
 	"github.com/marzagao/aquadirector/internal/config"
 	"github.com/marzagao/aquadirector/internal/sensor"
 	"github.com/marzagao/aquadirector/pkg/eheim"
 	"github.com/marzagao/aquadirector/pkg/redsea"
+	"github.com/spf13/cobra"
 )
 
 var alertsCmd = &cobra.Command{

@@ -31,8 +31,8 @@ type LEDSchedule struct {
 }
 
 type LEDChannel struct {
-	Rise   int              `json:"rise" yaml:"rise"`     // minute of day
-	Set    int              `json:"set" yaml:"set"`       // minute of day
+	Rise   int                `json:"rise" yaml:"rise"` // minute of day
+	Set    int                `json:"set" yaml:"set"`   // minute of day
 	Points []LEDSchedulePoint `json:"points" yaml:"points"`
 }
 
@@ -51,12 +51,12 @@ type LEDAcclimation struct {
 }
 
 type LEDMoonPhase struct {
-	Enabled      bool   `json:"enabled" yaml:"enabled"`
-	Name         string `json:"name" yaml:"name"`
-	Intensity    int    `json:"intensity" yaml:"intensity"`
-	TodaysMoonDay int   `json:"todays_moon_day" yaml:"todays_moon_day"`
-	NextFullMoon int    `json:"next_full_moon" yaml:"next_full_moon"`
-	NextNewMoon  int    `json:"next_new_moon" yaml:"next_new_moon"`
+	Enabled       bool   `json:"enabled" yaml:"enabled"`
+	Name          string `json:"name" yaml:"name"`
+	Intensity     int    `json:"intensity" yaml:"intensity"`
+	TodaysMoonDay int    `json:"todays_moon_day" yaml:"todays_moon_day"`
+	NextFullMoon  int    `json:"next_full_moon" yaml:"next_full_moon"`
+	NextNewMoon   int    `json:"next_new_moon" yaml:"next_new_moon"`
 }
 
 type LEDDashboard struct {
