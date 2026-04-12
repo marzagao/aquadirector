@@ -8,7 +8,6 @@ on:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-  GOCACHE: /tmp/go-build
 
 jobs:
   build-and-test:
@@ -20,6 +19,11 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version-file: go.mod
+
+      - name: Configure Go cache
+        run: |
+          mkdir -p /tmp/go-build /tmp/go-mod
+          go env -w GOCACHE=/tmp/go-build GOMODCACHE=/tmp/go-mod
 
       - name: Build
         run: go build ./...
