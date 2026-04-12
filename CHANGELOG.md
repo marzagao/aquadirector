@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2026-04-12
+
+### Changed
+
+- Example config (`aquadirector.yaml.example`): replaced realistic-looking Tuya credential examples with format descriptions
+- Genericized default LAN IPs from `192.168.50.x` to `192.168.1.x` across config defaults, examples, tests, and docs
+- Demo recording: switched from GIF (blurry, 256-color) to SVG (razor-sharp vector) via asciinema + svg-term-cli
+- Demo: added separator lines between commands for readability
+
+### Fixed
+
+- `gofmt -s` compliance across all packages
+- `gocyclo`: reduced complexity of `extractATOField` (21 → 9) and `mockTuyaDevice` (16 → 5) by extracting helper functions
+- Spelling: `professionel` → `professional` in `DeviceTypeName`
+
 ## [1.0.0] - 2026-04-11
 
 ### Added
@@ -23,5 +38,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Red Sea cloud integration (optional): 7-day notifications and ATO temperature history via OAuth2
 - Public Go libraries: `pkg/redsea`, `pkg/eheim`, `pkg/tuya` importable independently
 
-[Unreleased]: https://github.com/marzagao/aquadirector/compare/v1.0.0...HEAD
+[1.0.1]: https://github.com/marzagao/aquadirector/releases/tag/v1.0.1
 [1.0.0]: https://github.com/marzagao/aquadirector/releases/tag/v1.0.0
