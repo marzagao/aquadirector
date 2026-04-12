@@ -8,7 +8,10 @@ Go CLI for home aquarium automation. Monitors and controls Red Sea devices (Reef
 go build ./...            # build all packages
 go test ./... -v          # run all tests (75 tests across 8 packages)
 make build                # build binary with version info
+gofmt -w .               # format all Go files (required before every commit)
 ```
+
+Always run `gofmt -w .` before committing. Go Report Card grades gofmt compliance and CI will catch it if skipped.
 
 ## Architecture
 

@@ -24,7 +24,10 @@ make lint         # run go vet
 go build ./...              # build all packages (no binary)
 go test ./pkg/redsea/ -v    # test a specific package
 go test ./... -run TestName # run a specific test by name
+gofmt -w .                  # format all Go files (run before every commit)
 ```
+
+**Always run `gofmt -w .` before committing.** Go Report Card grades gofmt compliance, and unformatted code will lower the project grade.
 
 Tests cover 8 packages: `alerts`, `config`, `discovery`, `output`, `sensor`, `redsea`, `tuya`, `eheim`.
 
@@ -70,6 +73,6 @@ This requires Docker. It runs the same `build`, `test`, and `vet` steps as the G
 
 - **Bug fixes and small improvements** — open a PR directly
 - **New device support or larger features** — open an issue first to discuss approach
-- **PRs should:** include or update tests, not break existing ones, and keep `cmd/` thin
+- **PRs should:** include or update tests, not break existing ones, keep `cmd/` thin, and have `gofmt -w .` run before pushing
 
 For questions or to share what you've built with the library packages, open a GitHub discussion.
