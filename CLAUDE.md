@@ -137,7 +137,7 @@ Example: `[[[480,1200],[2,1]], [[],[]], ...]` = Monday at 08:00 (2 turns) and 20
 - Kactoily sensor: protocol discovered (Tuya v3.5), DPS mapping complete, live reading works natively in Go
 - Red Sea devices tested against real hardware (ReefATO+ and RSLED60)
 - ATO temperature reads from ato_sensor.current_read (not a top-level field)
-- 75 unit tests passing across 8 packages (alerts, config, discovery, output, sensor, redsea, tuya, eheim)
+- 89 unit tests passing across 9 packages (alerts, color, config, discovery, output, sensor, redsea, tuya, eheim)
 - `discover --save` writes discovered devices to config file
 - `--watch` flag on ato/led/sensor status commands for continuous monitoring
 - `sensor rekey` command fetches fresh local key from Tuya Cloud and updates config
@@ -155,6 +155,7 @@ Example: `[[[480,1200],[2,1]], [[],[]], ...]` = Monday at 08:00 (2 turns) and 20
 - Dashboard sections: `=== Water Quality ===`, `=== ATO ===`, `=== Lighting ===`, `=== Feeding ===`, `=== Notifications ===` — each section only shown when data is present
 - Feeder weight: negative (tared but empty drum) displays as `~0g`
 - All commands print `Ran at YYYY-MM-DD HH:MM:SS` footer in table mode; JSON/YAML output includes `run_at` unix timestamp at the top level (injected by `internal/output` formatter, no call-site changes needed)
+- `internal/color/` — tiny ANSI color package (8 base codes + bold/dim, `Init(mode)`, TTY detection, honors `NO_COLOR`). `--color=auto|always|never` persistent flag on root. Dashboard colorizes pH/ORP status labels, drum state, reservoir days-till-empty, leak sensor, pump state, unread notifications, acclimation; section headers bold, row labels dim. JSON/YAML output is byte-identical regardless of color mode.
 
 ## What's Left
 
