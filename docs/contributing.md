@@ -57,6 +57,28 @@ Tests cover 8 packages: `alerts`, `config`, `discovery`, `output`, `sensor`, `re
 - `pkg/` packages must not import from `internal/`
 - Keep `cmd/` commands concise; extract logic to `internal/` if a command grows beyond flag parsing
 
+## Updating the demo GIF
+
+The README GIF is recorded with [asciinema](https://asciinema.org/) and rendered with [agg](https://github.com/asciinema/agg):
+
+```sh
+brew install asciinema agg
+```
+
+To re-record (run from repo root):
+
+```sh
+asciinema rec hack/demo.cast
+```
+
+This opens an interactive session — run the commands you want to show, then `exit`. To render:
+
+```sh
+hack/render.sh   # outputs hack/demo.gif
+```
+
+Commit both `hack/demo.cast` and `hack/demo.gif`. The `.cast` file is plain text and re-renderable — to adjust font size, speed, or dimensions, edit `hack/render.sh` and re-run it without re-recording.
+
 ## Validate CI locally
 
 Before pushing, run the CI workflow locally with [agent-ci](https://agent-ci.dev/) to catch failures without burning a GitHub Actions run:
