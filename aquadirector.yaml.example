@@ -22,8 +22,8 @@ devices:
 # (https://iot.tuya.com/) after linking your Kactoily/Smart Life app account.
 sensor:
   ip: "192.168.50.15"
-  device_id: ""          # Tuya device ID (e.g. "REDACTED")
-  local_key: ""          # Tuya local key (e.g. "REDACTED")
+  device_id: ""          # Tuya device ID (22-char string from Tuya IoT Platform)
+  local_key: ""          # Tuya local key (16-char string from Tuya IoT Platform)
   version: "3.5"         # Tuya protocol version
   poll_interval: 60s
   # Calibration offsets (added to raw sensor readings).
