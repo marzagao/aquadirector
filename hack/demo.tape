@@ -9,17 +9,17 @@
 # Generate (run from repo root):
 #   CHROMIUM_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" vhs hack/demo.tape
 #
-# Output: demo.mp4 — add to README with:
-#   <video src="demo.mp4" autoplay loop muted playsinline></video>
+# Output: demo.gif — add to README with:
+#   ![Demo](demo.gif)
 
-Output demo.mp4
+Output demo.gif
 
 Set Shell "bash"
-Set FontSize 12
+Set FontSize 10
 Set LineHeight 1.1
 Set FontFamily "JetBrains Mono"
-Set Width 800
-Set Height 700
+Set Width 600
+Set Height 526
 Set Theme "Dracula"
 Set Padding 32
 Set TypingSpeed 35ms

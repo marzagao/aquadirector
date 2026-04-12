@@ -3,37 +3,7 @@
 Monitor and control your reef aquarium from the terminal — all on your local network, no cloud required.
 
 [![Go](https://img.shields.io/badge/Go-1.25+-00ADD8?logo=go)](https://go.dev) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![CI](https://github.com/marzagao/aquadirector/actions/workflows/ci.yml/badge.svg)](https://github.com/marzagao/aquadirector/actions/workflows/ci.yml) [![Go Report Card](https://goreportcard.com/badge/github.com/marzagao/aquadirector)](https://goreportcard.com/report/github.com/marzagao/aquadirector)
-<video src="demo.mp4" autoplay loop muted playsinline>
-```
-$ aquadirector dashboard
-
-=== Water Quality ===
-pH           7.87 (low)
-Temperature  25.4C / 77.7F
-ORP          155 mV (low)
-Salinity     0.63%
-SG           1.022
-
-=== ATO ===
-Status       auto (level=desired, 5.0 gal) temp=25.5C
-Pump         off, last trigger: manual
-Today Fills  6 (0.22 gal)
-Last Fill    2026-04-11 17:14
-Temp 7d      min=24.8C avg=25.4C max=26.6C
-Leak Sensor  dry
-
-=== Lighting ===
-Mode         auto (moon=0, white=46, blue=65)
-
-=== Feeding ===
-Food         ~0g drum=RED (level=0)
-
-=== Notifications (last 7 days) ===
-2026-04-11 08:51  ATO: Reservoir is running low.
-
-Ran at 2026-04-11 17:14:32
-```
-</video>
+![Demo](demo.gif)
 
 ## Supported Devices
 
