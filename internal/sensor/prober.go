@@ -107,7 +107,7 @@ func scanPorts(ctx context.Context, ip string) []PortInfo {
 		wg.Add(1)
 		go func(port int, service string) {
 			defer wg.Done()
-			addr := fmt.Sprintf("%s:%d", ip, port)
+			addr := net.JoinHostPort(ip, fmt.Sprintf("%d", port))
 			conn, err := net.DialTimeout("tcp", addr, 2*time.Second)
 			if err != nil {
 				return
