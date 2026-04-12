@@ -135,7 +135,7 @@ Example: `[[[480,1200],[2,1]], [[],[]], ...]` = Monday at 08:00 (2 turns) and 20
 - All CLI commands: dashboard, discover, status, ato (status/resume/volume/mode/config), led (status/manual/timer/mode/schedule), sensor (probe/status/rekey), feeder (status/feed/drum/config/schedule), alerts (check/config)
 - Alert engine with configurable rules, threshold evaluation, stdout/webhook/command notifiers
 - Kactoily sensor: protocol discovered (Tuya v3.5), DPS mapping complete, live reading works natively in Go
-- Red Sea devices tested against real hardware: ReefATO+ at 192.168.50.118, RSLED60 at 192.168.50.207
+- Red Sea devices tested against real hardware (ReefATO+ and RSLED60)
 - ATO temperature reads from ato_sensor.current_read (not a top-level field)
 - 75 unit tests passing across 8 packages (alerts, config, discovery, output, sensor, redsea, tuya, eheim)
 - `discover --save` writes discovered devices to config file

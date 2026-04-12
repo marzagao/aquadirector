@@ -94,12 +94,12 @@ func Load(v *viper.Viper) (*Config, error) {
 }
 
 func setDefaults(v *viper.Viper) {
-	v.SetDefault("network.subnet", "192.168.50.0/24")
+	v.SetDefault("network.subnet", "192.168.1.0/24")
 	v.SetDefault("network.scan_threads", 64)
 	v.SetDefault("network.default_timeout", 20*time.Second)
 	v.SetDefault("network.retry_max", 5)
 	v.SetDefault("network.retry_delay", 2*time.Second)
-	v.SetDefault("sensor.ip", "192.168.50.15")
+	v.SetDefault("sensor.ip", "192.168.1.15")
 	v.SetDefault("sensor.poll_interval", 60*time.Second)
 	v.SetDefault("feeder.host", "eheimdigital.local")
 	v.SetDefault("feeder.username", "api")

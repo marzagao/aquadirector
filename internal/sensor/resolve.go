@@ -18,7 +18,7 @@ func FindDeviceByMAC(subnet string) string {
 	// Ping sweep to populate ARP cache
 	cidr := subnet
 	if cidr == "" {
-		cidr = "192.168.50.0/24"
+		cidr = "192.168.1.0/24"
 	}
 
 	ips := subnetIPs(cidr)

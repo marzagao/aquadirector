@@ -2,7 +2,7 @@
 # Copy to ~/.config/aquadirector/aquadirector.yaml
 
 network:
-  subnet: "192.168.50.0/24"
+  subnet: "192.168.1.0/24"
   scan_threads: 64
   default_timeout: 20s
   retry_max: 5
@@ -11,17 +11,17 @@ network:
 # Known devices (populate manually or via `aquadirector discover --save`)
 devices:
   - name: "ReefATO+"
-    ip: "192.168.50.10"
+    ip: "192.168.1.10"
     type: "RSATO+"
   - name: "ReefLED60"
-    ip: "192.168.50.11"
+    ip: "192.168.1.11"
     type: "RSLED60"
 
 # Kactoily 7-in-1 water sensor (Tuya protocol v3.5)
 # Get device_id and local_key from the Tuya IoT Developer Platform
 # (https://iot.tuya.com/) after linking your Kactoily/Smart Life app account.
 sensor:
-  ip: "192.168.50.15"
+  ip: "192.168.1.15"
   device_id: ""          # Tuya device ID (22-char string from Tuya IoT Platform)
   local_key: ""          # Tuya local key (16-char string from Tuya IoT Platform)
   version: "3.5"         # Tuya protocol version

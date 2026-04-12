@@ -42,7 +42,7 @@ func feederTestServer(t *testing.T) (string, func()) {
 		case r.Method == http.MethodGet && r.URL.Path == "/api/devicelist":
 			json.NewEncoder(w).Encode(map[string]any{
 				"clientList":   []string{"AA:BB:CC:DD:EE:FF"},
-				"clientIPList": []string{"192.168.50.81"},
+				"clientIPList": []string{"192.168.1.81"},
 			})
 		case r.Method == http.MethodGet && r.URL.Path == "/api/userdata":
 			json.NewEncoder(w).Encode(map[string]any{
@@ -195,8 +195,8 @@ func TestHubMeshDevices(t *testing.T) {
 	if devices[0].Version != 6 {
 		t.Errorf("Version = %d, want 6", devices[0].Version)
 	}
-	if devices[0].IP != "192.168.50.81" {
-		t.Errorf("IP = %q, want 192.168.50.81", devices[0].IP)
+	if devices[0].IP != "192.168.1.81" {
+		t.Errorf("IP = %q, want 192.168.1.81", devices[0].IP)
 	}
 }
 
@@ -206,7 +206,7 @@ func TestHubFindFeederNotFound(t *testing.T) {
 		case "/api/devicelist":
 			json.NewEncoder(w).Encode(map[string]any{
 				"clientList":   []string{"AA:BB:CC:DD:EE:01"},
-				"clientIPList": []string{"192.168.50.82"},
+				"clientIPList": []string{"192.168.1.82"},
 			})
 		case "/api/userdata":
 			json.NewEncoder(w).Encode(map[string]any{

@@ -14,8 +14,8 @@ func TestLoadDefaults(t *testing.T) {
 		t.Fatalf("Load: %v", err)
 	}
 
-	if cfg.Network.Subnet != "192.168.50.0/24" {
-		t.Errorf("subnet = %q, want 192.168.50.0/24", cfg.Network.Subnet)
+	if cfg.Network.Subnet != "192.168.1.0/24" {
+		t.Errorf("subnet = %q, want 192.168.1.0/24", cfg.Network.Subnet)
 	}
 	if cfg.Network.ScanThreads != 64 {
 		t.Errorf("scan_threads = %d, want 64", cfg.Network.ScanThreads)
@@ -29,8 +29,8 @@ func TestLoadDefaults(t *testing.T) {
 	if cfg.Network.RetryDelay != 2*time.Second {
 		t.Errorf("retry_delay = %v, want 2s", cfg.Network.RetryDelay)
 	}
-	if cfg.Sensor.IP != "192.168.50.15" {
-		t.Errorf("sensor.ip = %q, want 192.168.50.15", cfg.Sensor.IP)
+	if cfg.Sensor.IP != "192.168.1.15" {
+		t.Errorf("sensor.ip = %q, want 192.168.1.15", cfg.Sensor.IP)
 	}
 	if !cfg.Alerts.Enabled {
 		t.Error("alerts should be enabled by default")

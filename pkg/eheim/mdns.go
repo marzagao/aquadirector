@@ -57,7 +57,7 @@ func resolveLocal(host string) string {
 }
 
 // extractIP looks for an A record line in dns-sd output and extracts the IP.
-// Line format: "  1:45:16.480  Add  40000002  16  eheimdigital.local.  Addr  IN  192.168.50.81"
+// Line format: "  1:45:16.480  Add  40000002  16  eheimdigital.local.  Addr  IN  192.168.1.81"
 func extractIP(output string) string {
 	for _, line := range strings.Split(output, "\n") {
 		if strings.Contains(line, "Addr") && strings.Contains(line, "Add") {
