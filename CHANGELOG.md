@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 2026-04-12
+
+### Added
+
+- Colorized `dashboard` output: pH/ORP status labels, drum state, reservoir
+  days-till-empty, leak sensor, pump state, and unread notification markers
+  are now color-coded for at-a-glance status. Section headers render bold,
+  row labels render dim. Palette uses only the 8 base ANSI codes so output
+  stays legible on both light and dark terminal themes. Auto-disabled when
+  stdout is not a TTY, honors `NO_COLOR`, and overridable with
+  `--color=auto|always|never`. JSON/YAML output is unchanged.
+
 ## [1.0.1] - 2026-04-12
 
 ### Changed
@@ -38,5 +50,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Red Sea cloud integration (optional): 7-day notifications and ATO temperature history via OAuth2
 - Public Go libraries: `pkg/redsea`, `pkg/eheim`, `pkg/tuya` importable independently
 
+[1.0.2]: https://github.com/marzagao/aquadirector/releases/tag/v1.0.2
 [1.0.1]: https://github.com/marzagao/aquadirector/releases/tag/v1.0.1
 [1.0.0]: https://github.com/marzagao/aquadirector/releases/tag/v1.0.0
