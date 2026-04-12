@@ -41,7 +41,7 @@ func DeviceTypeName(version int) string {
 	case 3:
 		return "LEDcontrol"
 	case 4:
-		return "professionel 5e"
+		return "professional 5e"
 	case 5:
 		return "thermocontrol+e"
 	case DeviceTypeFeeder:

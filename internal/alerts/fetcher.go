@@ -102,35 +102,43 @@ func extractATOField(d *redsea.ATODashboard, parts []string) (any, error) {
 		}
 		return d.Temperature(), nil
 	case "ato_sensor":
-		if len(parts) < 2 {
-			return nil, fmt.Errorf("ato_sensor requires a sub-field")
-		}
-		switch parts[1] {
-		case "connected":
-			return d.ATOSensor.Connected, nil
-		case "current_level":
-			return d.ATOSensor.CurrentLevel, nil
-		case "temperature_probe_status":
-			return d.ATOSensor.TemperatureProbeStatus, nil
-		default:
-			return nil, fmt.Errorf("unknown ato_sensor field: %s", parts[1])
-		}
+		return extractATOSensorField(d, parts)
 	case "leak_sensor":
-		if len(parts) < 2 {
-			return nil, fmt.Errorf("leak_sensor requires a sub-field")
-		}
-		switch parts[1] {
-		case "status":
-			return d.LeakSensor.Status, nil
-		case "enabled":
-			return d.LeakSensor.Enabled, nil
-		case "connected":
-			return d.LeakSensor.Connected, nil
-		default:
-			return nil, fmt.Errorf("unknown leak_sensor field: %s", parts[1])
-		}
+		return extractLeakSensorField(d, parts)
 	default:
 		return nil, fmt.Errorf("unknown ATO metric: %s", parts[0])
+	}
+}
+
+func extractATOSensorField(d *redsea.ATODashboard, parts []string) (any, error) {
+	if len(parts) < 2 {
+		return nil, fmt.Errorf("ato_sensor requires a sub-field")
+	}
+	switch parts[1] {
+	case "connected":
+		return d.ATOSensor.Connected, nil
+	case "current_level":
+		return d.ATOSensor.CurrentLevel, nil
+	case "temperature_probe_status":
+		return d.ATOSensor.TemperatureProbeStatus, nil
+	default:
+		return nil, fmt.Errorf("unknown ato_sensor field: %s", parts[1])
+	}
+}
+
+func extractLeakSensorField(d *redsea.ATODashboard, parts []string) (any, error) {
+	if len(parts) < 2 {
+		return nil, fmt.Errorf("leak_sensor requires a sub-field")
+	}
+	switch parts[1] {
+	case "status":
+		return d.LeakSensor.Status, nil
+	case "enabled":
+		return d.LeakSensor.Enabled, nil
+	case "connected":
+		return d.LeakSensor.Connected, nil
+	default:
+		return nil, fmt.Errorf("unknown leak_sensor field: %s", parts[1])
 	}
 }
 

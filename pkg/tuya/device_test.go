@@ -28,84 +28,86 @@ func mockTuyaDevice(t *testing.T, localKey []byte, dpsFixture map[string]any) (a
 		}
 		defer conn.Close()
 		conn.SetDeadline(time.Now().Add(10 * time.Second))
-
-		// Step 1: Read SESS_KEY_NEG_START (6699, encrypted with localKey)
-		pktData, err := ReadPacket(conn)
-		if err != nil {
-			t.Errorf("mock: read start: %v", err)
-			return
-		}
-		cmd, clientNonce, err := Decode6699(pktData, localKey)
-		if err != nil || cmd != CmdSessKeyNegStart {
-			t.Errorf("mock: decode start: cmd=0x%02X err=%v", cmd, err)
-			return
-		}
-
-		// Step 2: Send SESS_KEY_NEG_RESP with deviceNonce + HMAC, encrypted with localKey
-		deviceNonce, _ := GenerateNonce()
-		hmacVal := ComputeHMAC(localKey, clientNonce)
-		respPayload := append(deviceNonce[:], hmacVal...)
-
-		respPkt, err := Encode6699(1, CmdSessKeyNegResp, respPayload, localKey)
-		if err != nil {
-			t.Errorf("mock: encode resp: %v", err)
-			return
-		}
-		if _, err := conn.Write(respPkt); err != nil {
-			t.Errorf("mock: write resp: %v", err)
-			return
-		}
-
-		// Step 3: Read SESS_KEY_NEG_FINISH (6699, encrypted with localKey)
-		pktData, err = ReadPacket(conn)
-		if err != nil {
-			t.Errorf("mock: read finish: %v", err)
-			return
-		}
-		cmd, _, err = Decode6699(pktData, localKey)
-		if err != nil || cmd != CmdSessKeyNegFinish {
-			t.Errorf("mock: decode finish: cmd=0x%02X err=%v", cmd, err)
-			return
-		}
-
-		// Derive session key
-		sessionKey, err := DeriveSessionKey(localKey, clientNonce, deviceNonce[:])
-		if err != nil {
-			t.Errorf("mock: derive key: %v", err)
-			return
-		}
-
-		// Step 4: Read DP_QUERY_NEW (6699, encrypted with sessionKey)
-		pktData, err = ReadPacket(conn)
-		if err != nil {
-			t.Errorf("mock: read query: %v", err)
-			return
-		}
-		cmd, _, err = Decode6699(pktData, sessionKey)
-		if err != nil || cmd != CmdDPQueryNew {
-			t.Errorf("mock: decode query: cmd=0x%02X err=%v", cmd, err)
-			return
-		}
-
-		// Step 5: Send DPS response (6699, encrypted with sessionKey)
-		response := map[string]any{
-			"dps": dpsFixture,
-			"t":   time.Now().Unix(),
-		}
-		respJSON, _ := json.Marshal(response)
-
-		dataPkt, err := Encode6699(1, CmdDPQueryNew, respJSON, sessionKey)
-		if err != nil {
-			t.Errorf("mock: encode data resp: %v", err)
-			return
-		}
-		conn.Write(dataPkt)
+		serveMockTuyaSession(t, conn, localKey, dpsFixture)
 	}()
 
 	return ln.Addr().String(), func() {
 		ln.Close()
 		<-done
 	}
+}
+
+// serveMockTuyaSession runs the v3.5 handshake + single DP query exchange.
+func serveMockTuyaSession(t *testing.T, conn net.Conn, localKey []byte, dpsFixture map[string]any) {
+	t.Helper()
+
+	// Handshake start: client sends SESS_KEY_NEG_START with its nonce.
+	clientNonce, err := readExpectedCmd(conn, localKey, CmdSessKeyNegStart)
+	if err != nil {
+		t.Errorf("mock: start: %v", err)
+		return
+	}
+
+	// Handshake response: device replies with its nonce + HMAC of client nonce.
+	deviceNonce, _ := GenerateNonce()
+	respPayload := append(deviceNonce[:], ComputeHMAC(localKey, clientNonce)...)
+	if err := writeEncoded(conn, CmdSessKeyNegResp, respPayload, localKey); err != nil {
+		t.Errorf("mock: resp: %v", err)
+		return
+	}
+
+	// Handshake finish: client confirms.
+	if _, err := readExpectedCmd(conn, localKey, CmdSessKeyNegFinish); err != nil {
+		t.Errorf("mock: finish: %v", err)
+		return
+	}
+
+	sessionKey, err := DeriveSessionKey(localKey, clientNonce, deviceNonce[:])
+	if err != nil {
+		t.Errorf("mock: derive key: %v", err)
+		return
+	}
+
+	// Data phase: client queries DPs, device responds with the fixture.
+	if _, err := readExpectedCmd(conn, sessionKey, CmdDPQueryNew); err != nil {
+		t.Errorf("mock: query: %v", err)
+		return
+	}
+	respJSON, _ := json.Marshal(map[string]any{
+		"dps": dpsFixture,
+		"t":   time.Now().Unix(),
+	})
+	if err := writeEncoded(conn, CmdDPQueryNew, respJSON, sessionKey); err != nil {
+		t.Errorf("mock: data resp: %v", err)
+	}
+}
+
+// readExpectedCmd reads a 6699 packet, decodes it, and asserts the command matches.
+func readExpectedCmd(conn net.Conn, key []byte, want uint32) ([]byte, error) {
+	pktData, err := ReadPacket(conn)
+	if err != nil {
+		return nil, fmt.Errorf("read: %w", err)
+	}
+	cmd, payload, err := Decode6699(pktData, key)
+	if err != nil {
+		return nil, fmt.Errorf("decode: %w", err)
+	}
+	if cmd != want {
+		return nil, fmt.Errorf("cmd=0x%02X want=0x%02X", cmd, want)
+	}
+	return payload, nil
+}
+
+// writeEncoded builds a 6699 packet and writes it to the connection.
+func writeEncoded(conn net.Conn, cmd uint32, payload, key []byte) error {
+	pkt, err := Encode6699(1, cmd, payload, key)
+	if err != nil {
+		return fmt.Errorf("encode: %w", err)
+	}
+	if _, err := conn.Write(pkt); err != nil {
+		return fmt.Errorf("write: %w", err)
+	}
+	return nil
 }
 
 func TestDeviceStatus_Success(t *testing.T) {
