@@ -2,7 +2,7 @@
 
 Monitor and control your reef aquarium from the terminal — all on your local network, no cloud required.
 
-[![Go](https://img.shields.io/badge/Go-1.25+-00ADD8?logo=go)](https://go.dev) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![CI](https://github.com/marzagao/aquadirector/actions/workflows/ci.yml/badge.svg)](https://github.com/marzagao/aquadirector/actions/workflows/ci.yml) [![Go Report Card](https://goreportcard.com/badge/github.com/marzagao/aquadirector?v=9fd58b39f85d730fc1aa3e88007d44a49379c95c)](https://goreportcard.com/report/github.com/marzagao/aquadirector)
+[![Go](https://img.shields.io/badge/Go-1.25+-00ADD8?logo=go)](https://go.dev) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![CI](https://github.com/marzagao/aquadirector/actions/workflows/ci.yml/badge.svg)](https://github.com/marzagao/aquadirector/actions/workflows/ci.yml) [![Go Report Card](https://goreportcard.com/badge/github.com/marzagao/aquadirector?v=d2329084cad437fb095e2bed539f7580b984d0f0)](https://goreportcard.com/report/github.com/marzagao/aquadirector)
 
 <img src="hack/demo.svg" width="600" alt="Demo" />
 
